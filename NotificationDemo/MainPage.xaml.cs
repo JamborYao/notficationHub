@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NotificationDemo.Common;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -26,22 +27,44 @@ namespace NotificationDemo
         public NotificationHelper notificationHelper;
         public MainPage()
         {
-            notificationHelper = new NotificationHelper(this.Frame);
+           
             this.InitializeComponent();
+           
         }
 
         private void sendToast_click(object sender, RoutedEventArgs e)
         {
+            notificationHelper = new NotificationHelper(this.Frame);
             notificationHelper.SendToastNotification();
             xmlContent.Text = notificationHelper.ToastXMLContent;
+          
         }
 
         private void customSendToast_click(object sender, RoutedEventArgs e)
         {
+            notificationHelper = new NotificationHelper(this.Frame);
+           
+            notificationHelper.ToastActiveEvent += ToastEvent;
             notificationHelper.SendToastDefineXML();
             var directPage= notificationHelper.ToastArgs;
            
             
+        }
+        public async void ToastEvent(string ToastArgs)
+        {
+            switch (ToastArgs.Split('.')[0].Substring(1))
+            {
+                case "About":
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        this.Frame.Navigate(typeof(About));
+                    });
+                   
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

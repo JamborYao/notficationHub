@@ -7,6 +7,7 @@ using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using System.IO;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Core;
 
 namespace NotificationDemo.Common
 {
@@ -44,19 +45,18 @@ namespace NotificationDemo.Common
             toast.Activated += Toast_Activated;
         }
 
-        private  void Toast_Activated(ToastNotification sender, object args)
+        private   void Toast_Activated(ToastNotification sender, object args)
         {
-            var content = ((Windows.UI.Notifications.ToastActivatedEventArgs)args).Arguments;
-            ToastArgs = content;
-            switch (ToastArgs.Split('.')[0])
+            ToastArgs = ((Windows.UI.Notifications.ToastActivatedEventArgs)args).Arguments;
+         
+            if (ToastActiveEvent != null)
             {
-                case "About":
-                    this.frame.Navigate(typeof(About));
-                    break;
-                default:
-                    break;
+                ToastActiveEvent(ToastArgs);
             }
+           
+           
         }
+        public Action<string> ToastActiveEvent;
         #endregion
         public  string ToastArgs { get; set; }
 
