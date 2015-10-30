@@ -23,15 +23,25 @@ namespace NotificationDemo
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public NotificationHelper notificationHelper;
         public MainPage()
         {
+            notificationHelper = new NotificationHelper(this.Frame);
             this.InitializeComponent();
         }
 
         private void sendToast_click(object sender, RoutedEventArgs e)
         {
-            NotificationHelper.SendToastNotification();
-            xmlContent.Text = NotificationHelper.ToastXMLContent;
+            notificationHelper.SendToastNotification();
+            xmlContent.Text = notificationHelper.ToastXMLContent;
+        }
+
+        private void customSendToast_click(object sender, RoutedEventArgs e)
+        {
+            notificationHelper.SendToastDefineXML();
+            var directPage= notificationHelper.ToastArgs;
+           
+            
         }
     }
 }

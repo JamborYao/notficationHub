@@ -27,6 +27,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0">
             <TextBlock Text="Send Toast"></TextBlock>
             <Button Content="Send" Click="sendToast_click" Height="36" Width="75"></Button>
+            <Button Content="Custom Send" Click="customSendToast_click" Height="36" Width="75"></Button>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0">
             <TextBlock x:Name="xmlContent" TextWrapping="Wrap">
